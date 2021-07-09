@@ -1,65 +1,49 @@
 #include "api.hh"
+#include "custom_api.h"
 
 #include <iostream>
-
-void CheckError(erreur error, const char* file, int line,  const char* func)
-{
-	if (error == OK) return;
-	std::cout << "[" << file << " l." << line << " f." << func << "] ";
-	switch (error)
-	{
-	case POSITION_INVALIDE:
-		std::cout << "POSITION_INVALIDE" << std::endl;
-		break;
-	case POSITION_OBSTACLE:
-		std::cout << "POSITION_OBSTACLE" << std::endl;
-		break;
-	case MAUVAIS_NOMBRE:
-		std::cout << "MAUVAIS_NOMBRE" << std::endl;
-		break;
-	case DEPLACEMENT_HORS_LIMITES:
-		std::cout << "DEPLACEMENT_HORS_LIMITES" << std::endl;
-		break;
-	case DIRECTION_INVALIDE:
-		std::cout << "DIRECTION_INVALIDE" << std::endl;
-		break;
-	case MOUVEMENT_INVALIDE:
-		std::cout << "MOUVEMENT_INVALIDE" << std::endl;
-		break;
-	case POSE_INVALIDE:
-		std::cout << "POSE_INVALIDE" << std::endl;
-		break;
-	case ID_PANDA_INVALIDE:
-		std::cout << "ID_PANDA_INVALIDE" << std::endl;
-		break;
-	case ACTION_DEJA_EFFECTUEE:
-		std::cout << "ACTION_DEJA_EFFECTUEE" << std::endl;
-		break;
-	case DRAPEAU_INVALIDE:
-		std::cout << "DRAPEAU_INVALIDE" << std::endl;
-		break;
-	case DEPLACEMENT_EN_ARRIERE:
-		std::cout << "DEPLACEMENT_EN_ARRIERE" << std::endl;
-		break;
-	default:
-		std::cout << "UNKNOWN" << std::endl;
-	}
-}
-
-#define CheckErr( error ) CheckError( error, __FILE__, __LINE__, __FUNCTION__ )
 
 /// Fonction appelée au début de la partie.
 void partie_init()
 {
     std::cout << "partie_init\n";
-	CheckErr(MAUVAIS_NOMBRE);
-    // TODO
+    std::cout << "my ID :" << moi() << std::endl;
+    std::cout << "Pandas : ";
+    std::vector<panda_info> pandas = liste_pandas();
+    for (int i = 0; i < pandas.size(); ++i)
+    {
+        afficher_panda_info(pandas[i]);
+    }
+    std::cout << std::endl;
+	
+    std::cout << "Bebes : ";
+    std::vector<bebe_info> bebes = liste_bebes();
+    for (int i = 0; i < bebes.size(); ++i)
+    {
+        afficher_bebe_info(bebes[i]);
+    }
+    std::cout << std::endl;
 }
 
 /// Fonction appelée à chaque tour.
 void jouer_tour()
 {
     std::cout << "jouer_tour\n";
+    std::cout << "Tour Info";
+    afficher_tour_info(info_tour());
+    std::cout << std::endl;
+    panda_info currentPanda = info_panda(position_panda(moi(), info_tour().id_panda_joue));
+    debug_afficher_drapeau(currentPanda.panda_pos, DRAPEAU_BLEU);
+    afficher_panda_info(currentPanda);
+    std::vector<position> neighbors = positions_adjacentes(currentPanda.panda_pos);
+    for (int i = 0; i < neighbors.size(); ++i)
+    {
+        afficher_position(neighbors[i]);
+        afficher_case_type(type_case(neighbors[i]));
+        std::cout << std::endl;
+    }
+
+	
     // TODO
 }
 
