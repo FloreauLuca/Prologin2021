@@ -18,7 +18,10 @@
     <ClCompile Include="StrategieTest.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="champion.cc">
+    <ClCompile Include="pandetective.cc">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="interface.cc">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
